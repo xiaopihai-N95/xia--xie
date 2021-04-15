@@ -1,0 +1,1 @@
+const doctor: string = 'ziegler'

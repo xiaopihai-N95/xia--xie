@@ -1,0 +1,18 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node ./src/crowler.ts"
+  },
+  "devDependencies": {
+    "@types/superagent": "^4.1.10",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.6",
+    "superagent": "^6.1.0"
+  }
+}

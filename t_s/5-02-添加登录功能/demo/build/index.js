@@ -5,7 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var router_1 = __importDefault(require("./router"));
+var body_parser_1 = __importDefault(require("body-parser"));
 var app = express_1.default();
+// 要先解析 body-parser, 不然路由调用不到
+app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(body_parser_1.default.json());
+app.use(function (req, res, next) {
+    req.message = 'hi, 小屁孩!';
+    next();
+});
 app.use(router_1.default);
 app.listen(7001, function () {
     console.log('server is running');

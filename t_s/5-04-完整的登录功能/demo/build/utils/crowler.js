@@ -46,7 +46,7 @@ var Crowler = /** @class */ (function () {
     function Crowler(url, dellAnalyzer) {
         this.url = url;
         this.dellAnalyzer = dellAnalyzer;
-        this.filePath = path_1.default.resolve(__dirname, '../data/crowler.json');
+        this.filePath = path_1.default.resolve(__dirname, '../../data/crowler.json');
         this.initSpiderProcess();
     }
     Crowler.prototype.getHtml = function () {

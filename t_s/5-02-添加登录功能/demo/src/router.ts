@@ -23,10 +23,6 @@ router.get('/', (req: Request, res: Response) => {
   `)
 })
 
-router.get('/login', (req: Request, res: Response) => {
-  res.send()
-})
-
 // 因为表单使用了 post 的方式, 所以这里也要用 post 方式
 router.post('/getData', (req: Request, res: Response) => {
   const { password } = req.body

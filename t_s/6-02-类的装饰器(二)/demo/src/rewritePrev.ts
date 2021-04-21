@@ -23,4 +23,3 @@ function factoryDecorator(param: number) {
 class Test { }
 
 const test = new Test()
-

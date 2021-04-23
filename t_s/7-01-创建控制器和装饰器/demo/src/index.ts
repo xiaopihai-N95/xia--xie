@@ -1,16 +1,10 @@
-class Test {
-  static heroName_ = 'd.va'
-  @heroNameDecorator
-  static get heroName() {
-    return this.heroName_
-  }
-}
+import express from 'express'
+import router from './router'
 
-const pro = Test.prototype
+const app = express()
 
-function heroNameDecorator(target: any, key: string, descriptor: PropertyDescriptor) {
-  console.log(target.constructor)
-}
+app.use(router)
 
-const hero = new Test
-console.log(Test.heroName)
+app.listen(7001, () => {
+  console.log('server is running')
+})

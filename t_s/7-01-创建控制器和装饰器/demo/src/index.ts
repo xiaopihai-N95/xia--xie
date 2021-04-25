@@ -1,7 +1,10 @@
 import cookieSession from 'cookie-session';
 import bodyParser from 'body-parser';
 import express from 'express'
-import router from './router'
+// import router from './router'
+// 引入LoginController就执行了装饰器
+import './controller/LoginController'
+import { router } from './controller/decorator'
 
 const app = express()
 

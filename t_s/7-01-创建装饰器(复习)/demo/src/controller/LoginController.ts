@@ -3,6 +3,12 @@ import 'reflect-metadata'
 import { Controller, Get, Post } from './decorator'
 import getResponseData from '../utils/util'
 
+interface BodyRequest extends Request {
+  body: {
+    [key: string]: string | undefined
+  }
+}
+
 @Controller
 export default class LoginController {
   @Get('/')
@@ -33,7 +39,7 @@ export default class LoginController {
   }
 
   @Post('/login')
-  login(req: Request, res: Response) {
+  login(req: BodyRequest, res: Response) {
     const { password } = req.body
     const isLogin = req.session?.login
     if (isLogin) {

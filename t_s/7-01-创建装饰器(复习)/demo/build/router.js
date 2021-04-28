@@ -1,25 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs_1 = __importDefault(require("fs"));
-var path_1 = __importDefault(require("path"));
 var express_1 = require("express");
-var analyzer_1 = __importDefault(require("./utils/analyzer"));
-var crowler_1 = __importDefault(require("./utils/crowler"));
-var util_1 = __importDefault(require("./utils/util"));
-var checkLogin = function (req, res, next) {
-    var _a;
-    var isLogin = (_a = req.session) === null || _a === void 0 ? void 0 : _a.login;
-    if (isLogin) {
-        next();
-    }
-    else {
-        // res.send('请先登录')
-        res.json(util_1.default(null, '请先登录'));
-    }
-};
 var router = express_1.Router();
 /* router.get('/', (req: Request, res: Response) => {
 
@@ -30,24 +11,18 @@ var router = express_1.Router();
 /* router.get('/logout', (req: Request, res: Response) => {
   
 }) */
-router.get('/getData', checkLogin, function (req, res) {
-    var key = 'x3b174jsx';
-    var url = "http://www.dell-lee.com/typescript/demo.html?secret=" + key;
-    var analyzerInstance = analyzer_1.default.createInstance();
-    new crowler_1.default(url, analyzerInstance);
-    // res.send('爬取成功')
-    res.json(util_1.default(true));
-});
-router.get('/showData', checkLogin, function (req, res) {
-    try {
-        var filePath = path_1.default.resolve(__dirname, '../data/data.json');
-        var dataContent = fs_1.default.readFileSync(filePath, 'utf-8');
-        // res.json(JSON.parse(dataContent))
-        res.json(util_1.default(JSON.parse(dataContent)));
-    }
-    catch (e) {
-        // res.send('没有数据')
-        res.json(util_1.default(false, '没有数据'));
-    }
-});
+/* router.get('/getData', checkLogin, (req: Request, res: Response) => {
+  
+}) */
+/* router.get('/showData', checkLogin, (req: Request, res: Response) => {
+  try {
+    const filePath = path.resolve(__dirname, '../data/data.json')
+    const dataContent = fs.readFileSync(filePath, 'utf-8')
+    // res.json(JSON.parse(dataContent))
+    res.json(getResponseData(JSON.parse(dataContent)))
+  } catch (e) {
+    // res.send('没有数据')
+    res.json(getResponseData(false, '没有数据'))
+  }
+}) */
 exports.default = router;

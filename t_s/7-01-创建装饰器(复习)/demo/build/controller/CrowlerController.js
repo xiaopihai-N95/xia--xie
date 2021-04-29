@@ -12,13 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
+var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
 require("reflect-metadata");
 var analyzer_1 = __importDefault(require("../utils/analyzer"));
 var crowler_1 = __importDefault(require("../utils/crowler"));
 var util_1 = __importDefault(require("../utils/util"));
 var decorator_1 = require("./decorator");
-var router = express_1.Router();
+var checkLogin = function (req, res, next) {
+    var _a;
+    var isLogin = (_a = req.session) === null || _a === void 0 ? void 0 : _a.login;
+    if (isLogin) {
+        next();
+    }
+    else {
+        // res.send('请先登录')
+        res.json(util_1.default(null, '请先登录'));
+    }
+};
 var CrowlerController = /** @class */ (function () {
     function CrowlerController() {
     }
@@ -30,16 +41,35 @@ var CrowlerController = /** @class */ (function () {
         // res.send('爬取成功')
         res.json(util_1.default(true));
     };
+    CrowlerController.prototype.showData = function (req, res) {
+        try {
+            var filePath = path_1.default.resolve(__dirname, '../../data/data.json');
+            var dataContent = fs_1.default.readFileSync(filePath, 'utf-8');
+            // res.json(JSON.parse(dataContent))
+            res.json(util_1.default(JSON.parse(dataContent)));
+        }
+        catch (e) {
+            // res.send('没有数据')
+            res.json(util_1.default(false, '没有数据'));
+        }
+    };
     __decorate([
         decorator_1.Get('/getData'),
-        decorator_1.Use(decorator_1.checkLogin),
+        decorator_1.Use(checkLogin),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
     ], CrowlerController.prototype, "getData", null);
+    __decorate([
+        decorator_1.Get('/showData'),
+        decorator_1.Use(checkLogin),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", void 0)
+    ], CrowlerController.prototype, "showData", null);
     CrowlerController = __decorate([
         decorator_1.Controller
     ], CrowlerController);
     return CrowlerController;
 }());
-exports.default = router;
+exports.default = CrowlerController;

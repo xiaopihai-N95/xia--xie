@@ -1,12 +1,21 @@
-import { Router } from 'express'
+import fs from 'fs'
+import path from 'path'
 import "reflect-metadata"
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import Analyzer from '../utils/analyzer'
 import Crowler from '../utils/crowler'
 import getResponseData from '../utils/util'
-import { Get, Use, Controller, checkLogin } from './decorator'
+import { Get, Use, Controller } from './decorator'
 
-const router = Router()
+const checkLogin = (req: Request, res: Response, next: NextFunction) => {
+  const isLogin = req.session?.login
+  if (isLogin) {
+    next()
+  } else {
+    // res.send('请先登录')
+    res.json(getResponseData(null, '请先登录'))
+  }
+}
 
 @Controller
 class CrowlerController {
@@ -20,6 +29,20 @@ class CrowlerController {
     // res.send('爬取成功')
     res.json(getResponseData(true))
   }
+
+  @Get('/showData')
+  @Use(checkLogin)
+  showData(req: Request, res: Response) {
+    try {
+      const filePath = path.resolve(__dirname, '../../data/data.json')
+      const dataContent = fs.readFileSync(filePath, 'utf-8')
+      // res.json(JSON.parse(dataContent))
+      res.json(getResponseData(JSON.parse(dataContent)))
+    } catch (e) {
+      // res.send('没有数据')
+      res.json(getResponseData(false, '没有数据'))
+    }
+  }
 }
 
-export default router
+export default CrowlerController

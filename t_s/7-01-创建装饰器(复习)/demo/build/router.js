@@ -15,14 +15,6 @@ var router = express_1.Router();
   
 }) */
 /* router.get('/showData', checkLogin, (req: Request, res: Response) => {
-  try {
-    const filePath = path.resolve(__dirname, '../data/data.json')
-    const dataContent = fs.readFileSync(filePath, 'utf-8')
-    // res.json(JSON.parse(dataContent))
-    res.json(getResponseData(JSON.parse(dataContent)))
-  } catch (e) {
-    // res.send('没有数据')
-    res.json(getResponseData(false, '没有数据'))
-  }
+  
 }) */
 exports.default = router;

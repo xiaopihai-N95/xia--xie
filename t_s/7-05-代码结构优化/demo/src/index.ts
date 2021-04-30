@@ -1,6 +1,8 @@
 import express, { Router, Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import cookieSession from 'cookie-session'
+import './controller/LoginController'
+import './controller/CrowlerController'
 import router from './router'
 
 const app = express()

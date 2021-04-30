@@ -7,7 +7,7 @@ export interface CrowlerAnalyzer {
 }
 
 class Crowler {
-  private filePath = path.resolve(__dirname, '../data/data.json')
+  private filePath = path.resolve(__dirname, '../../data/data.json')
   async getHtml(url: string) {
     const html = await (await superagent.get(url)).text
     return html

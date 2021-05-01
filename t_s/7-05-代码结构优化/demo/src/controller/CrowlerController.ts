@@ -14,6 +14,12 @@ const checkLogin = (req: Request, res: Response, next: NextFunction): void => {
     // res.send('请先登录')
     res.json(getResponseData(null, '请先登录'))
   }
+  console.log('first middleware')
+}
+
+const testSecondMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+  console.log('second middleware')
+  next()
 }
 
 @Controller('/abc')
@@ -31,6 +37,7 @@ export class CrowlerController {
 
   @Get('/showData')
   @Use(checkLogin)
+  @Use(testSecondMiddleware)
   showData(req: Request, res: Response): void {
     try {
       const filePath = path.resolve(__dirname, '../../data/data.json')

@@ -29,6 +29,11 @@ var checkLogin = function (req, res, next) {
         // res.send('请先登录')
         res.json(util_1.default(null, '请先登录'));
     }
+    console.log('first middleware');
+};
+var testSecondMiddleware = function (req, res, next) {
+    console.log('second middleware');
+    next();
 };
 var CrowlerController = /** @class */ (function () {
     function CrowlerController() {
@@ -63,6 +68,7 @@ var CrowlerController = /** @class */ (function () {
     __decorate([
         decorator_1.Get('/showData'),
         decorator_1.Use(checkLogin),
+        decorator_1.Use(testSecondMiddleware),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)

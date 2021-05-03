@@ -6,6 +6,7 @@ var routerFactory = function (type) {
     return function (path) {
         return function (target, key) {
             Reflect.defineMetadata('path', path, target, key);
+            Reflect.defineMetadata('method', type, target, key);
         };
     };
 };

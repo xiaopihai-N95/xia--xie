@@ -12,9 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CrowlerController = void 0;
+var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
 var analyzer_1 = __importDefault(require("../analyzer"));
 var crowler_1 = __importDefault(require("../crowler"));
+var decorator_1 = require("../decorator");
 var util_1 = __importDefault(require("../utils/util"));
+var checkLogin = function (req, res, next) {
+    var _a;
+    var isLogin = (_a = req.session) === null || _a === void 0 ? void 0 : _a.login;
+    if (isLogin) {
+        console.log('first middleware');
+        next();
+    }
+    else {
+        // res.send('请先登录')
+        res.json(util_1.default(null, '请先登录'));
+    }
+};
+var secondMiddleware = function (req, res, next) {
+    console.log('second middleware');
+    next();
+};
 var CrowlerController = /** @class */ (function () {
     function CrowlerController() {
     }
@@ -25,14 +45,35 @@ var CrowlerController = /** @class */ (function () {
         new crowler_1.default(url, AnalyzerInstance);
         res.json(util_1.default(true));
     };
+    CrowlerController.prototype.showData = function (req, res) {
+        try {
+            var filePath = path_1.default.resolve(__dirname, '../../data/data.json');
+            var fileContent = fs_1.default.readFileSync(filePath, 'utf-8');
+            // res.send(JSON.parse(fileContent))
+            res.json(util_1.default(JSON.parse(fileContent)));
+        }
+        catch (e) {
+            res.json(util_1.default(false, '没有数据'));
+        }
+    };
     __decorate([
-        Get('/getData'),
+        decorator_1.Get('/getData'),
+        decorator_1.Use(checkLogin),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Request, Response]),
+        __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
     ], CrowlerController.prototype, "getData", null);
+    __decorate([
+        decorator_1.Get('/showData'),
+        decorator_1.Use(checkLogin),
+        decorator_1.Use(secondMiddleware),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", void 0)
+    ], CrowlerController.prototype, "showData", null);
     CrowlerController = __decorate([
-        Controller
+        decorator_1.Controller('/')
     ], CrowlerController);
     return CrowlerController;
 }());
+exports.CrowlerController = CrowlerController;

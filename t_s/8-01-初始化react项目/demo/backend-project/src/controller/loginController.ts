@@ -1,9 +1,9 @@
-import { Router, Request, Response, NextFunction } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import getResposeData from '../utils/util'
 import { Get, Post, Controller } from '../decorator'
 
 @Controller('/')
-class LoginControlller {
+export class LoginControlller {
   @Get('/')
   home(req: Request, res: Response): void {
     const isLogin = req.session?.login
@@ -36,13 +36,16 @@ class LoginControlller {
     const isLogin = req.session?.login
     const { password } = req.body
     if (isLogin) {
-      res.send('已经登录')
+      // res.send('已经登录')
+      res.json(getResposeData(false, '已经登录'))
     } else {
       if (password === '123' && req.session) {
         req.session.login = true
-        res.send('登录成功')
+        // res.send('登录成功')
+        res.json(getResposeData(true))
       } else {
-        res.send('登录失败')
+        // res.send('登录失败')
+        res.json(getResposeData(false, '登录失败'))
       }
     }
   }

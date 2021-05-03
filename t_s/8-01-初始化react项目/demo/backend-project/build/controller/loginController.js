@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.LoginControlller = void 0;
 var util_1 = __importDefault(require("../utils/util"));
 var decorator_1 = require("../decorator");
 var LoginControlller = /** @class */ (function () {
@@ -32,15 +33,18 @@ var LoginControlller = /** @class */ (function () {
         var isLogin = (_a = req.session) === null || _a === void 0 ? void 0 : _a.login;
         var password = req.body.password;
         if (isLogin) {
-            res.send('已经登录');
+            // res.send('已经登录')
+            res.json(util_1.default(false, '已经登录'));
         }
         else {
             if (password === '123' && req.session) {
                 req.session.login = true;
-                res.send('登录成功');
+                // res.send('登录成功')
+                res.json(util_1.default(true));
             }
             else {
-                res.send('登录失败');
+                // res.send('登录失败')
+                res.json(util_1.default(false, '登录失败'));
             }
         }
     };
@@ -70,7 +74,8 @@ var LoginControlller = /** @class */ (function () {
         __metadata("design:returntype", void 0)
     ], LoginControlller.prototype, "logout", null);
     LoginControlller = __decorate([
-        Controller
+        decorator_1.Controller('/')
     ], LoginControlller);
     return LoginControlller;
 }());
+exports.LoginControlller = LoginControlller;

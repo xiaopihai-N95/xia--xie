@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import router from '../router'
 
 export const Controller = (root: string) => {
-  return function (target: any) {
+  return function (target: new (...args: any[]) => {}) {
     for (let key in target.prototype) {
       const path = Reflect.getMetadata('path', target.prototype, key) as string
       const method = Reflect.getMetadata('method', target.prototype, key) as 'get' | 'post'

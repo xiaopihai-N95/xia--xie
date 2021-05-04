@@ -1,0 +1,16 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node ./src/index.ts",
+    "retest": "ts-node ./src/rewritePrev.ts"
+  },
+  "dependencies": {
+    "typescript": "^4.2.4"
+  },
+  "devDependencies": {
+    "ts-node": "^9.1.1"
+  }
+}
